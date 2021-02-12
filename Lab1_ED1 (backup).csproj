@@ -6,9 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="E_LinealesCS">
-      <HintPath>E_LinealesCS\obj\Debug\netstandard2.0\E_LinealesCS.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\E_LinealesCS\E_LinealesCS.csproj" />
   </ItemGroup>
 
 </Project>
