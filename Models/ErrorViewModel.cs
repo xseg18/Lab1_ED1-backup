@@ -1,4 +1,5 @@
 using System;
+using E_LinealesCS;
 
 namespace Lab1_ED1__backup_.Models
 {
@@ -7,5 +8,7 @@ namespace Lab1_ED1__backup_.Models
         public string RequestId { get; set; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        E_LinealesCS.List<int> PRUEBA = new List<int>();
+        PRUEBA.Add()
     }
 }
