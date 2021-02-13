@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..Lab1_ED1-backup\E_LinealesCS\E_LinealesCS.csproj" />
+    <ProjectReference Include="..\E_LinealesCS\E_LinealesCS.csproj" />
   </ItemGroup>
 
 </Project>

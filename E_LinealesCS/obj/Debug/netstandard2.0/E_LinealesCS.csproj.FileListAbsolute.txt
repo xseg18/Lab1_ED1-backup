@@ -1,9 +1,0 @@
-C:\Users\eliza\OneDrive\Documentos\Estructuras\Lab\E_LinealesCS\bin\Debug\netstandard2.0\E_LinealesCS.deps.json
-C:\Users\eliza\OneDrive\Documentos\Estructuras\Lab\E_LinealesCS\bin\Debug\netstandard2.0\E_LinealesCS.dll
-C:\Users\eliza\OneDrive\Documentos\Estructuras\Lab\E_LinealesCS\bin\Debug\netstandard2.0\E_LinealesCS.pdb
-C:\Users\eliza\OneDrive\Documentos\Estructuras\Lab\E_LinealesCS\obj\Debug\netstandard2.0\E_LinealesCS.csprojAssemblyReference.cache
-C:\Users\eliza\OneDrive\Documentos\Estructuras\Lab\E_LinealesCS\obj\Debug\netstandard2.0\E_LinealesCS.AssemblyInfoInputs.cache
-C:\Users\eliza\OneDrive\Documentos\Estructuras\Lab\E_LinealesCS\obj\Debug\netstandard2.0\E_LinealesCS.AssemblyInfo.cs
-C:\Users\eliza\OneDrive\Documentos\Estructuras\Lab\E_LinealesCS\obj\Debug\netstandard2.0\E_LinealesCS.csproj.CoreCompileInputs.cache
-C:\Users\eliza\OneDrive\Documentos\Estructuras\Lab\E_LinealesCS\obj\Debug\netstandard2.0\E_LinealesCS.dll
-C:\Users\eliza\OneDrive\Documentos\Estructuras\Lab\E_LinealesCS\obj\Debug\netstandard2.0\E_LinealesCS.pdb
