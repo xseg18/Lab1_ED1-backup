@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Lab1_ED1__backup_.Models.Data;
 
 namespace Lab1_ED1__backup_.Controllers
 {
@@ -20,6 +21,7 @@ namespace Lab1_ED1__backup_.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
 
