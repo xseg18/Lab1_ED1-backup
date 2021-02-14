@@ -4,22 +4,19 @@ using System.Collections.Generic;
 
 namespace ELineales
 {
-	public class Lista<T> : IEnumerable
+	public class Lista<T> : IEnumerable<T>
 	{
 		class Node
 		{
 			public Node Next;
 			public T Data;
-			public Node(T data)
-			{
-				Data = data;
-			}
 		}
-		Node Top;
+		Node Top = new Node();
 
-		private void Add(T item)
+		public void Add(T item)
 		{
-			Node agregar = new Node(item);
+			Node agregar = new Node();
+			agregar.Data = item;
 			agregar.Next = null;
 			if (Top != null)
 			{
@@ -105,9 +102,8 @@ namespace ELineales
 				temp = temp.Next;
 			}
 		}
-
-		public IEnumerator GetEnumerator()
-		{
+		private IEnumerable<T> Events()
+        {
 			Node temp = Top;
 			while (temp != null)
 			{
@@ -115,13 +111,18 @@ namespace ELineales
 				temp = temp.Next;
 			}
 		}
+		public IEnumerator<T> GetEnumerator() 
+		{ 
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
+			return Events().GetEnumerator();
 		}
 
-		public T this[int index]
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+			return GetEnumerator();
+        }
+
+        public T this[int index]
 		{
 			get
 			{
