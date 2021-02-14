@@ -9,11 +9,11 @@ namespace Lab1_ED1__backup_.Models.Data
     public sealed class Singleton
     {
         public readonly static Singleton _instance = new Singleton();
-        public Lista<Player> PlayerList;
+        public System.Collections.Generic.List<Player> PlayerList;
         
         private Singleton()
         {
-            PlayerList = new Lista<Player>();
+            PlayerList = new System.Collections.Generic.List<Player>();
         }
         public static Singleton Instance
         {
