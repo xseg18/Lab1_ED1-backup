@@ -55,7 +55,7 @@ namespace Lab1_ED1__backup_.Controllers
 
         public IActionResult DLPlayer()
         {
-            return View();
+            return View(Singleton.Instance1.PlayerDList);
         }
     }
 }
