@@ -35,5 +35,27 @@ namespace Lab1_ED1__backup_.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult Create(string lista)
+        {
+            if (lista == "s")
+            {
+                return RedirectToAction(nameof(SLPlayer));
+            }
+            else
+            {
+                return RedirectToAction(nameof(DLPlayer));
+            }
+        }
+
+        public IActionResult SLPlayer()
+        {
+            return View(Singleton.Instance.PlayerList);
+        }
+
+        public IActionResult DLPlayer()
+        {
+            return View();
+        }
     }
 }
