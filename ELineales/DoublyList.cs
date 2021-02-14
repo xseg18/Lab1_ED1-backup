@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -58,7 +59,7 @@ namespace ELineales
 			}
 			return false;
 		}
-		public new IEnumerator<T> GetEnumerator()
+		private IEnumerable<T> Events()
 		{
 			Node1 temp = Top;
 			while (temp != null)
@@ -66,6 +67,15 @@ namespace ELineales
 				yield return temp.Data;
 				temp = temp.Next;
 			}
+		}
+		public new IEnumerator<T> GetEnumerator()
+		{
+			return Events().GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
 		}
 	}
 }
