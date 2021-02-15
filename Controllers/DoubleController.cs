@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Lab1_ED1__backup_.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Lab1_ED1__backup_.Models.Data;
 
 namespace Lab1_ED1__backup_.Controllers
 {
@@ -12,7 +16,7 @@ namespace Lab1_ED1__backup_.Controllers
         // GET: DoubleController
         public ActionResult Index()
         {
-            return View();
+            return View(Singleton.Instance1.PlayerDList);
         }
 
         // GET: DoubleController/Details/5
@@ -34,10 +38,21 @@ namespace Lab1_ED1__backup_.Controllers
         {
             try
             {
+                var newPlayer = new Models.Player
+                {
+                    Club = collection["Club"],
+                    LName = collection["LName"],
+                    Name = collection["Name"],
+                    Position = collection["Position"],
+                    Pay = Convert.ToInt32(collection["Pay"]),
+                    Compensation = Convert.ToInt32(collection["Compensation"])
+                };
+                Singleton.Instance1.PlayerDList.Push(newPlayer);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
+
                 return View();
             }
         }
