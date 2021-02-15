@@ -101,6 +101,11 @@ namespace Lab1_ED1__backup_.Controllers
             }
         }
 
+        public ActionResult Search()
+        {
+            return View(Singleton.Instance3.PlayerDSearch);
+        }
+
         public ActionResult SearchN()
         {
             return View();
@@ -113,18 +118,17 @@ namespace Lab1_ED1__backup_.Controllers
         {
             try
             {
-                string name = ""; //poner lo de collections
-                string lname = "";
-                ELineales.DoublyList<Player> found = new ELineales.DoublyList<Player>();
+                string name = collection["Name"]; 
+                string lname = collection["LName"];
+                Singleton.Instance1.PlayerDList.Foreach(Searcher);
                 void Searcher(Player p)
                 {
                     if (p.Name == name && p.LName == lname)
                     {
-                        found.Add(p);
+                        Singleton.Instance3.PlayerDSearch.Add(p);
                     }
                 }
-                Singleton.Instance1.PlayerDList.Foreach(Searcher);
-                return RedirectToAction(nameof(Index/*poner vista*/));
+                return RedirectToAction(nameof(Search));
             }
             catch
             {
