@@ -63,7 +63,6 @@ namespace Lab1_ED1__backup_.Controllers
         {
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SLPlayerC(IFormCollection collection)
