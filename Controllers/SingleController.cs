@@ -23,7 +23,8 @@ namespace Lab1_ED1__backup_.Controllers
         // GET: HomeController1/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var ViewPlayer = Singleton.Instance.PlayerList.Find(x => x.ID == id);
+            return View(ViewPlayer);
         }
 
         // GET: HomeController1/Create

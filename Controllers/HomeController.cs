@@ -35,7 +35,7 @@ namespace Lab1_ED1__backup_.Controllers
         {
             if (lista == "s")
             {
-                return RedirectToAction("Index", "SingleController");
+                return RedirectToAction("Index", "Single");
             }
             else
             {
