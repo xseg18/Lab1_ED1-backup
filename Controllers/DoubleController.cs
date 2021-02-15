@@ -8,12 +8,26 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Lab1_ED1__backup_.Models.Data;
+using System.Data;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Lab1_ED1__backup_.Controllers
 {
     public class DoubleController : Controller
     {
+        private IHostingEnvironment Environment;
+        public DoubleController(IHostingEnvironment _environment)
+        {
+            Environment = _environment;
+        }
         public static int i = 0;
+        public static string SName = "";
+        public static string SLName = "";
+        public static string SClub = "";
+        public static decimal SPay = 0;
+        public static ELineales.DoublyList<Player> found = new ELineales.DoublyList<Player>();
+
         // GET: DoubleController
         public ActionResult Index()
         {
@@ -58,9 +72,34 @@ namespace Lab1_ED1__backup_.Controllers
                 return View();
             }
         }
+        public ActionResult AddFile()
+        {
+            return View();
 
-        // GET: DoubleController/Edit/5
-        public ActionResult Edit(int id)
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddFile(IFormFile postedfile)
+        {
+            if(postedfile != null)
+            {
+                string path = Path.Combine(this.Environment.WebRootPath, "Uploads");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                string FileName = Path.GetFileName(postedfile.FileName);
+                string FilePath = Path.Combine(path, FileName);
+                using (FileStream stream = new FileStream(FilePath, FileMode.Create))
+                {
+
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+            // GET: DoubleController/Edit/5
+            public ActionResult Edit(int id)
         {
             return View();
         }
@@ -115,16 +154,10 @@ namespace Lab1_ED1__backup_.Controllers
             {
                 string name = ""; //poner lo de collections
                 string lname = "";
-                ELineales.DoublyList<Player> found = new ELineales.DoublyList<Player>();
-                void Searcher(Player p)
-                {
-                    if (p.Name == name && p.LName == lname)
-                    {
-                        found.Add(p);
-                    }
-                }
-                Singleton.Instance1.PlayerDList.Foreach(Searcher);
-                return RedirectToAction(nameof(Index/*poner vista*/));
+                SName = name;
+                SLName = lname;
+                
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -137,7 +170,14 @@ namespace Lab1_ED1__backup_.Controllers
         {
             return View();
         }
-
+        void Searcher(Player p)
+        {
+            
+            if (p.Name == SName && p.LName == SLName)
+            {
+                found.Add(p);
+            }
+        }
         // POST: DoubleController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -168,7 +208,7 @@ namespace Lab1_ED1__backup_.Controllers
         {
             return View();
         }
-
+        
         // POST: DoubleController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -178,6 +218,7 @@ namespace Lab1_ED1__backup_.Controllers
             {
                 decimal? pay = 0; //poner lo de collections
                 ELineales.DoublyList<Player> found = new ELineales.DoublyList<Player>();
+                Singleton.Instance1.PlayerDList.Foreach(Searcher);
                 void Searcher(Player p)
                 {
                     if (p.Pay == pay)
@@ -185,7 +226,6 @@ namespace Lab1_ED1__backup_.Controllers
                         found.Add(p);
                     }
                 }
-                Singleton.Instance1.PlayerDList.Foreach(Searcher);
                 return RedirectToAction(nameof(Index/*poner vista*/));
             }
             catch
