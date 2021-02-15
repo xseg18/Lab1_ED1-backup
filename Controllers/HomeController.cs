@@ -31,91 +31,23 @@ namespace Lab1_ED1__backup_.Controllers
             return View();
         }
 
+        public IActionResult Create(string lista)
+        {
+            if (lista == "s")
+            {
+                return RedirectToAction("Index", "SingleController");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Double");
+            }
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Create(string lista)
-        {
-            if (lista == "s")
-            {
-                return RedirectToAction(nameof(SLPlayer));
-            }
-            else
-            {
-                return RedirectToAction(nameof(DLPlayer));
-            }
-        }
-
-        public IActionResult SLPlayer()
-        {
-            return View(Singleton.Instance.PlayerList);
-        }
-
-        public IActionResult DLPlayer()
-        {
-            return View(Singleton.Instance1.PlayerDList);
-        }
-
-        public IActionResult SLPlayerC()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult SLPlayerC(IFormCollection collection)
-        {
-            try
-            {
-                var newPlayer = new Models.Player
-                {
-                    Club = collection["Club"],
-                    LName = collection["LName"],
-                    Name = collection["Name"],
-                    Position = collection["Position"],
-                    Pay = Convert.ToInt32(collection["Pay"]),
-                    Compensation = Convert.ToInt32(collection["Compensation"])
-                };
-                Singleton.Instance.PlayerList.Add(newPlayer);
-                return RedirectToAction(nameof(SLPlayer));
-            }
-            catch
-            {
-
-                return View();
-            }
-        }
-
-        public IActionResult DLPlayerC()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DLPlayerC(IFormCollection collection)
-        {
-            try
-            {
-                var newPlayer = new Models.Player
-                {
-                    Club = collection["Club"],
-                    LName = collection["LName"],
-                    Name = collection["Name"],
-                    Position = collection["Position"],
-                    Pay = Convert.ToInt32(collection["Pay"]),
-                    Compensation = Convert.ToInt32(collection["Compensation"])
-                };
-                Singleton.Instance1.PlayerDList.Push(newPlayer);
-                return RedirectToAction(nameof(DLPlayer));
-            }
-            catch
-            {
-
-                return View();
-            }
-        }
     }
 }
