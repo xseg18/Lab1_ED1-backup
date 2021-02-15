@@ -8,7 +8,6 @@ namespace Lab1_ED1__backup_.Models
 {
     public class Player
     {
-        int i = -1;
         [Display(Name = "Nombre")]
         [Required]
         public string Name { get; set; }
@@ -27,17 +26,6 @@ namespace Lab1_ED1__backup_.Models
         [Display(Name = "Compensación")]
         [Required]
         public decimal? Compensation { get; set; }
-        public int ID
-        {
-            get
-            {
-                return ID;
-            }
-            set
-            {
-                ID = i++;
-            }
-        }
-
+        public int ID { get; set; }
     }
 }

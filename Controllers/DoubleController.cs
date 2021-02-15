@@ -13,6 +13,7 @@ namespace Lab1_ED1__backup_.Controllers
 {
     public class DoubleController : Controller
     {
+        public static int i = 0;
         // GET: DoubleController
         public ActionResult Index()
         {
@@ -45,7 +46,8 @@ namespace Lab1_ED1__backup_.Controllers
                     Name = collection["Name"],
                     Position = collection["Position"],
                     Pay = Convert.ToInt32(collection["Pay"]),
-                    Compensation = Convert.ToInt32(collection["Compensation"])
+                    Compensation = Convert.ToInt32(collection["Compensation"]),
+                    ID = i++
                 };
                 Singleton.Instance1.PlayerDList.Push(newPlayer);
                 return RedirectToAction(nameof(Index));
