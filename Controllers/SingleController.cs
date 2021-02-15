@@ -73,6 +73,10 @@ namespace Lab1_ED1__backup_.Controllers
         {
             try
             {
+                var EditPlayer = Singleton.Instance.PlayerList.Find(x => x.ID == id);
+                int pos = Singleton.Instance.PlayerList.IndexOf(EditPlayer);
+                Singleton.Instance.PlayerList[pos].Club = collection["Club"];
+                Singleton.Instance.PlayerList[pos].Pay = Convert.ToInt32(collection["Pay"]);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -84,7 +88,8 @@ namespace Lab1_ED1__backup_.Controllers
         // GET: HomeController1/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var ViewPlayer = Singleton.Instance.PlayerList.Find(x => x.ID == id);
+            return View(ViewPlayer);
         }
 
         // POST: HomeController1/Delete/5
@@ -94,6 +99,9 @@ namespace Lab1_ED1__backup_.Controllers
         {
             try
             {
+                var DeletePlayer = Singleton.Instance.PlayerList.Find(x => x.ID == id);
+                int pos = Singleton.Instance.PlayerList.IndexOf(DeletePlayer);
+                Singleton.Instance.PlayerList.RemoveAt(pos);
                 return RedirectToAction(nameof(Index));
             }
             catch
