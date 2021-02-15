@@ -14,6 +14,10 @@ namespace Lab1_ED1__backup_.Controllers
     public class DoubleController : Controller
     {
         public static int i = 0;
+        public static string SName = "";
+        public static string SLName = "";
+        public static decimal SPay = 0;
+        public static string SClub = "";
         // GET: DoubleController
         public ActionResult Index()
         {
@@ -120,14 +124,13 @@ namespace Lab1_ED1__backup_.Controllers
             {
                 string name = collection["Name"]; 
                 string lname = collection["LName"];
-                Singleton.Instance1.PlayerDList.Foreach(Searcher);
-                void Searcher(Player p)
+                SName = name;
+                SLName = lname;
+                if(Singleton.Instance3.PlayerDSearch.Count() > 0)
                 {
-                    if (p.Name == name && p.LName == lname)
-                    {
-                        Singleton.Instance3.PlayerDSearch.Add(p);
-                    }
+                    Singleton.Instance3.PlayerDSearch.Clear();
                 }
+                Singleton.Instance1.PlayerDList.Foreach(SearcherN);
                 return RedirectToAction(nameof(Search));
             }
             catch
@@ -149,16 +152,9 @@ namespace Lab1_ED1__backup_.Controllers
         {
             try
             {
-                string club = ""; //poner lo de collections
+                //string club = ""; //poner lo de collections
                 ELineales.DoublyList<Player> found = new ELineales.DoublyList<Player>();
-                void Searcher(Player p)
-                {
-                    if (p.Club == club)
-                    {
-                        found.Add(p);
-                    }
-                }
-                Singleton.Instance1.PlayerDList.Foreach(Searcher);
+                //Singleton.Instance1.PlayerDList.Foreach(Searcher);
                 return RedirectToAction(nameof(Index/*poner vista*/));
             }
             catch
@@ -180,22 +176,23 @@ namespace Lab1_ED1__backup_.Controllers
         {
             try
             {
-                decimal? pay = 0; //poner lo de collections
+                //decimal? pay = 0; //poner lo de collections
                 ELineales.DoublyList<Player> found = new ELineales.DoublyList<Player>();
-                void Searcher(Player p)
-                {
-                    if (p.Pay == pay)
-                    {
-                        found.Add(p);
-                    }
-                }
-                Singleton.Instance1.PlayerDList.Foreach(Searcher);
+                //Singleton.Instance1.PlayerDList.Foreach(Searcher);
                 return RedirectToAction(nameof(Index/*poner vista*/));
             }
             catch
             {
 
                 return View();
+            }
+        }
+
+        public void SearcherN(Player p)
+        {
+            if(p.Name == SName && p.LName == SLName)
+            {
+                Singleton.Instance3.PlayerDSearch.Push(p);
             }
         }
     }

@@ -11,7 +11,7 @@ namespace Lab1_ED1__backup_.Models.Data
         public readonly static Singleton _instance = new Singleton();
         public System.Collections.Generic.List<Player> PlayerList;
         public readonly static Singleton _instance1 = new Singleton();
-        public ELineales.DoublyList<Player> PlayerDList;
+        public ELineales.DoublyList<Player> PlayerDList;    
         public readonly static Singleton _instance2 = new Singleton();
         public System.Collections.Generic.List<Player> PlayerSearch;
         public readonly static Singleton _instance3 = new Singleton();

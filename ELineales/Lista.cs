@@ -6,7 +6,7 @@ namespace ELineales
 {
 	public class Lista<T> : IEnumerable<T>
 	{
-		class Node
+		private class Node
 		{
 			public Node Next;
 			public T Data;
