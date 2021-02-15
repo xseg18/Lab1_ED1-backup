@@ -87,5 +87,35 @@ namespace Lab1_ED1__backup_.Controllers
                 return View();
             }
         }
+
+        public IActionResult DLPlayerC()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DLPlayerC(IFormCollection collection)
+        {
+            try
+            {
+                var newPlayer = new Models.Player
+                {
+                    Club = collection["Club"],
+                    LName = collection["LName"],
+                    Name = collection["Name"],
+                    Position = collection["Position"],
+                    Pay = Convert.ToInt32(collection["Pay"]),
+                    Compensation = Convert.ToInt32(collection["Compensation"])
+                };
+                Singleton.Instance1.PlayerDList.Push(newPlayer);
+                return RedirectToAction(nameof(DLPlayer));
+            }
+            catch
+            {
+
+                return View();
+            }
+        }
     }
 }
