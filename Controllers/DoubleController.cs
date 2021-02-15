@@ -98,5 +98,99 @@ namespace Lab1_ED1__backup_.Controllers
                 return View();
             }
         }
+
+        public ActionResult SearchN()
+        {
+            return View();
+        }
+
+        // POST: DoubleController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SearchN(IFormCollection collection)
+        {
+            try
+            {
+                string name = ""; //poner lo de collections
+                string lname = "";
+                ELineales.DoublyList<Player> found = new ELineales.DoublyList<Player>();
+                void Searcher(Player p)
+                {
+                    if (p.Name == name && p.LName == lname)
+                    {
+                        found.Add(p);
+                    }
+                }
+                Singleton.Instance1.PlayerDList.Foreach(Searcher);
+                return RedirectToAction(nameof(Index/*poner vista*/));
+            }
+            catch
+            {
+
+                return View();
+            }
+        }
+
+        public ActionResult SearchC()
+        {
+            return View();
+        }
+
+        // POST: DoubleController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SearchC(IFormCollection collection)
+        {
+            try
+            {
+                string club = ""; //poner lo de collections
+                ELineales.DoublyList<Player> found = new ELineales.DoublyList<Player>();
+                void Searcher(Player p)
+                {
+                    if (p.Club == club)
+                    {
+                        found.Add(p);
+                    }
+                }
+                Singleton.Instance1.PlayerDList.Foreach(Searcher);
+                return RedirectToAction(nameof(Index/*poner vista*/));
+            }
+            catch
+            {
+
+                return View();
+            }
+        }
+
+        public ActionResult SearchP()
+        {
+            return View();
+        }
+
+        // POST: DoubleController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SearchP(IFormCollection collection)
+        {
+            try
+            {
+                decimal? pay = 0; //poner lo de collections
+                ELineales.DoublyList<Player> found = new ELineales.DoublyList<Player>();
+                void Searcher(Player p)
+                {
+                    if (p.Pay == pay)
+                    {
+                        found.Add(p);
+                    }
+                }
+                Singleton.Instance1.PlayerDList.Foreach(Searcher);
+                return RedirectToAction(nameof(Index/*poner vista*/));
+            }
+            catch
+            {
+
+                return View();
+            }
+        }
     }
 }
