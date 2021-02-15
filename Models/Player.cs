@@ -21,7 +21,7 @@ namespace Lab1_ED1__backup_.Models
         [Required]
         public decimal? Pay { get; set; }
         [Display(Name = "Posición")]
-        [Required]
+        [Required]  
         public string Position { get; set; }
         [Display(Name = "Compensación")]
         [Required]

@@ -12,7 +12,7 @@ namespace ELineales
 			public T Data;
 			public Node Prev;
 			public Node Next;
-			public Node(T data)
+			public Node(T data)	
 			{
 				Data = data;
 			}
