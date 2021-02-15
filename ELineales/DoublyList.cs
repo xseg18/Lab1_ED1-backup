@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,21 +7,21 @@ namespace ELineales
 {
 	public class DoublyList<T> : Lista<T>, IEnumerable<T>
 	{
-		class Node1
+		class Node
 		{
 			public T Data;
-			public Node1 Prev;
-			public Node1 Next;
-			public Node1(T data)
+			public Node Prev;
+			public Node Next;
+			public Node(T data)
 			{
 				Data = data;
 			}
 		};
-		Node1 Top;
+		Node Top;
 
 		public void Push(T data)
 		{
-			Node1 AddNew = new Node1(data);
+			Node AddNew = new Node(data);
 			AddNew.Next = Top;
 			AddNew.Prev = null;
 			if (Top != null)
@@ -40,13 +41,13 @@ namespace ELineales
 				Top = Top.Next;
 			}
 			int count = 0;
-			Node1 temp = Top;
+			Node temp = Top;
 			while (temp.Next != null && count != index)
 			{
 				if (count == index - 1)
 				{
-					Node1 prev = temp;
-					Node1 del = temp.Next;
+					Node prev = temp;
+					Node del = temp.Next;
 					prev.Next = del;
 					del.Prev = prev;
 					return true;
@@ -58,14 +59,24 @@ namespace ELineales
 			}
 			return false;
 		}
-		public new IEnumerator<T> GetEnumerator()
+		private IEnumerable<T> Events()
 		{
-			Node1 temp = Top;
+			Node temp = Top;
 			while (temp != null)
 			{
 				yield return temp.Data;
 				temp = temp.Next;
 			}
 		}
+		public new IEnumerator<T> GetEnumerator()
+		{
+			return Events().GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+
 	}
 }

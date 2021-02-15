@@ -10,10 +10,12 @@ namespace Lab1_ED1__backup_.Models.Data
     {
         public readonly static Singleton _instance = new Singleton();
         public System.Collections.Generic.List<Player> PlayerList;
-        
+        public readonly static Singleton _instance1 = new Singleton();
+        public ELineales.DoublyList<Player> PlayerDList;
         private Singleton()
         {
             PlayerList = new System.Collections.Generic.List<Player>();
+            PlayerDList = new ELineales.DoublyList<Player>();
         }
         public static Singleton Instance
         {
@@ -22,6 +24,12 @@ namespace Lab1_ED1__backup_.Models.Data
                 return _instance;
             }
         }
-        
+        public static Singleton Instance1
+        {
+            get
+            {
+                return _instance1;
+            }
+        }
     }
 }
