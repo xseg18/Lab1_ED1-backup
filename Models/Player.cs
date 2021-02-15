@@ -19,12 +19,13 @@ namespace Lab1_ED1__backup_.Models
         public string Club { get; set; }
         [Display(Name = "Salario")]
         [Required]
-        public double Pay { get; set; }
+        public decimal? Pay { get; set; }
         [Display(Name = "Posición")]
         [Required]
         public string Position { get; set; }
         [Display(Name = "Compensación")]
         [Required]
-        public double Compensation { get; set; }
+        public decimal? Compensation { get; set; }
+        public int ID { get; set; }
     }
 }
