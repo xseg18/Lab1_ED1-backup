@@ -1,4 +1,5 @@
 ﻿using Lab1_ED1__backup_.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -56,6 +57,36 @@ namespace Lab1_ED1__backup_.Controllers
         public IActionResult DLPlayer()
         {
             return View();
+        }
+
+        public IActionResult SLPlayerC()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SLPlayerC(IFormCollection collection)
+        {
+            try
+            {
+                var newPlayer = new Models.Player
+                {
+                    Club = collection["Club"],
+                    LName = collection["LName"],
+                    Name = collection["Name"],
+                    Position = collection["Position"],
+                    Pay = Convert.ToInt32(collection["Pay"]),
+                    Compensation = Convert.ToInt32(collection["Compensation"])
+                };
+                Singleton.Instance.PlayerList.Add(newPlayer);
+                return RedirectToAction(nameof(SLPlayer));
+            }
+            catch
+            {
+
+                return View();
+            }
         }
     }
 }
