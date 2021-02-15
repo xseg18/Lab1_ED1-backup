@@ -109,10 +109,5 @@ namespace Lab1_ED1__backup_.Controllers
                 return View();
             }
         }
-
-        public ActionResult Search()
-        {
-            return View();
-        }
     }
 }
