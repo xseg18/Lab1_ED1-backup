@@ -63,7 +63,8 @@ namespace Lab1_ED1__backup_.Controllers
         // GET: HomeController1/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var ViewPlayer = Singleton.Instance.PlayerList.Find(x => x.ID == id);
+            return View(ViewPlayer);
         }
 
         // POST: HomeController1/Edit/5
@@ -112,7 +113,86 @@ namespace Lab1_ED1__backup_.Controllers
 
         public ActionResult Search()
         {
+            return View(Singleton.Instance2.PlayerSearch);
+        }
+
+        public ActionResult SearchN()
+        {
             return View();
+        }
+
+        // POST: DoubleController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SearchN(IFormCollection collection)
+        {
+            try
+            {
+                string name = collection["Name"];
+                string lname = collection["LName"];
+                Singleton.Instance2.PlayerSearch = Singleton.Instance.PlayerList.FindAll(x => x.Name == name && x.LName == lname);
+                return RedirectToAction(nameof(Search));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult SearchC()
+        {
+            return View();
+        }
+
+        // POST: DoubleController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SearchC(IFormCollection collection)
+        {
+            try
+            {
+                string club = collection["Club"];
+                Singleton.Instance2.PlayerSearch = Singleton.Instance.PlayerList.FindAll(x => x.Club == club);
+                return RedirectToAction(nameof(Search));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult SearchP()
+        {
+            return View();
+        }
+
+        // POST: DoubleController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SearchP(string salario, IFormCollection collection)
+        {
+            try
+            {
+                int pay = Convert.ToInt32(collection["Pay"]);
+                if (salario == "menor")
+                {
+                    Singleton.Instance2.PlayerSearch = Singleton.Instance.PlayerList.FindAll(x => x.Pay <= pay);
+                }
+                else if (salario == "igual")
+                {
+                    Singleton.Instance2.PlayerSearch = Singleton.Instance.PlayerList.FindAll(x => x.Pay == pay);
+                }
+                else
+                {
+                    Singleton.Instance2.PlayerSearch = Singleton.Instance.PlayerList.FindAll(x => x.Pay >= pay);
+                }
+                return RedirectToAction(nameof(Search));
+            }
+            catch
+            {
+
+                return View();
+            }
         }
     }
 }

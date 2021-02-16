@@ -1,17 +1,11 @@
 ﻿@model IEnumerable<Lab1_ED1__backup_.Models.Player>
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Search";
 }
 
-<h1>Base de Datos</h1>
+<h1>Resultados de la búsqueda</h1>
 
-<p>
-    <a asp-action="Create">Agregar nuevo</a>
-</p>
-<p>
-    Buscar por: <a asp-action="SearchN">Nombre y apellido</a> | <a asp-action="SearchC">Club</a> | <a asp-action="SearchP">Salario</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -58,11 +52,14 @@
                     @Html.DisplayFor(modelItem => item.Compensation)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) | 
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) | 
                     @Html.ActionLink("Delete", "Delete", new { id = item.ID })
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<div>
+    <a asp-action="Index">Regresar a lista</a>
+</div>

@@ -128,7 +128,7 @@ namespace Lab1_ED1__backup_.Controllers
                 SLName = lname;
                 if(Singleton.Instance3.PlayerDSearch.Count() > 0)
                 {
-                    Singleton.Instance3.PlayerDSearch.Clear();
+                    //Singleton.Instance3.PlayerDSearch.Clear();
                 }
                 Singleton.Instance1.PlayerDList.Foreach(SearcherN);
                 return RedirectToAction(nameof(Search));

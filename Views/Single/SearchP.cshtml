@@ -1,0 +1,47 @@
+﻿@model Lab1_ED1__backup_.Models.Player
+
+@{
+    ViewData["Title"] = "SearchP";
+}
+
+<h1>Buscar por salario</h1>
+
+<h4>Jugador</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SearchP">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Pay" class="control-label"></label>
+                <input asp-for="Pay" class="form-control" />
+                <span asp-validation-for="Pay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="radio" name="salario" value="menor" required />
+                    Menor
+                </label>
+                <label>
+                    <input type="radio" name="salario" value="igual" />
+                    Igual
+                </label>
+                <label>
+                    <input type="radio" name="salario" value="mayor" />
+                    Mayor
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Buscar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Regresar a lista</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

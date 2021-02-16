@@ -155,15 +155,5 @@ namespace ELineales
 				}
 			}
 		}
-		public void Clear()
-		{
-
-			NODE temp = Top;
-			while (temp != null)
-			{
-				temp = null;
-				temp = temp.Next;
-			}
-		}
 	}
 }
