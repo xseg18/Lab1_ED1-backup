@@ -43,10 +43,6 @@ namespace ELineales
 		}
 		public bool DeleteAt(int index)
 		{
-			if (Top == null || index == 0)
-			{
-				throw new System.ArgumentNullException("Empty List");
-			}
 			if (index == 0)
 			{
 				Top = Top.Next;
