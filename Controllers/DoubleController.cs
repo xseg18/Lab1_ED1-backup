@@ -16,7 +16,7 @@ namespace Lab1_ED1__backup_.Controllers
         public static int i = 0;
         public static string SName = "";
         public static string SLName = "";
-        public static decimal SPay = 0;
+        public static decimal? SPay = 0;
         public static string SClub = "";
         // GET: DoubleController
         public ActionResult Index()
@@ -97,6 +97,9 @@ namespace Lab1_ED1__backup_.Controllers
         {
             try
             {
+                var DeletePlayer = Singleton.Instance.PlayerDList.Foreach(x => x.ID == id);
+                int pos = Singleton.Instance.PlayerList.IndexOf(DeletePlayer);
+                Singleton.Instance.PlayerList.RemoveAt(pos);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -128,7 +131,7 @@ namespace Lab1_ED1__backup_.Controllers
                 SLName = lname;
                 if(Singleton.Instance3.PlayerDSearch.Count() > 0)
                 {
-                    //Singleton.Instance3.PlayerDSearch.Clear();
+                    Singleton.Instance3.PlayerDSearch.Clear();
                 }
                 Singleton.Instance1.PlayerDList.Foreach(SearcherN);
                 return RedirectToAction(nameof(Search));
@@ -152,10 +155,14 @@ namespace Lab1_ED1__backup_.Controllers
         {
             try
             {
-                //string club = ""; //poner lo de collections
-                ELineales.DoublyList<Player> found = new ELineales.DoublyList<Player>();
-                //Singleton.Instance1.PlayerDList.Foreach(Searcher);
-                return RedirectToAction(nameof(Index/*poner vista*/));
+                string club = collection["Club"]; //poner lo de collections
+                SClub = club;
+                if (Singleton.Instance3.PlayerDSearch.Count() > 0)
+                {
+                    Singleton.Instance3.PlayerDSearch.Clear();
+                }
+                Singleton.Instance1.PlayerDList.Foreach(SearcherC);
+                return RedirectToAction(nameof(Search));
             }
             catch
             {
@@ -176,10 +183,14 @@ namespace Lab1_ED1__backup_.Controllers
         {
             try
             {
-                //decimal? pay = 0; //poner lo de collections
-                ELineales.DoublyList<Player> found = new ELineales.DoublyList<Player>();
-                //Singleton.Instance1.PlayerDList.Foreach(Searcher);
-                return RedirectToAction(nameof(Index/*poner vista*/));
+                decimal? pay = Convert.ToDecimal(collection["Pay"]);
+                SPay = pay;
+                if (Singleton.Instance3.PlayerDSearch.Count() > 0)
+                {
+                    Singleton.Instance3.PlayerDSearch.Clear();
+                }
+                Singleton.Instance1.PlayerDList.Foreach(SearcherP);
+                return RedirectToAction(nameof(Search));
             }
             catch
             {
@@ -191,6 +202,21 @@ namespace Lab1_ED1__backup_.Controllers
         public void SearcherN(Player p)
         {
             if(p.Name == SName && p.LName == SLName)
+            {
+                Singleton.Instance3.PlayerDSearch.Push(p);
+            }
+        }
+
+        public void SearcherP(Player p)
+        {
+            if(p.Pay == SPay)
+            {
+                Singleton.Instance3.PlayerDSearch.Push(p);
+            }
+        }
+        public void SearcherC(Player p)
+        {
+            if (p.Club == SClub)
             {
                 Singleton.Instance3.PlayerDSearch.Push(p);
             }

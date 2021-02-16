@@ -151,5 +151,15 @@ namespace ELineales
 				}
 			}
 		}
+		public void Clear()
+        {
+			Top = null;
+        }
+
+        public T Find (Predicate<T> action)
+		{ 
+			
+        }
+        
 	}
 }
