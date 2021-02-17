@@ -156,10 +156,10 @@ namespace ELineales
 			Top = null;
         }
 
-        public T Find (Predicate<T> action)
-		{ 
-			
-        }
-        
-	}
+        //public T Find(Predicate<T> action)
+        //{
+
+        //}
+
+    }
 }

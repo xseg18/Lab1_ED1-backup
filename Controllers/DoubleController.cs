@@ -1,12 +1,15 @@
-﻿using Lab1_ED1__backup_.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
+using System.IO;
+using System.Data;
 using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using Lab1_ED1__backup_.Models;
 using Lab1_ED1__backup_.Models.Data;
 
 namespace Lab1_ED1__backup_.Controllers
@@ -19,9 +22,103 @@ namespace Lab1_ED1__backup_.Controllers
         public static decimal? SPay = 0;
         public static string SClub = "";
         // GET: DoubleController
+        private IHostingEnvironment Environment;
+
+        public DoubleController(IHostingEnvironment _environment)
+        {
+            Environment = _environment;
+        }
+
         public ActionResult Index()
         {
             return View(Singleton.Instance1.PlayerDList);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(IFormFile postedFile)
+        {
+            string Club = "", LName = "", Name = "", Position = "";
+            Decimal Salary = 0, Compensation = 0;
+            if (postedFile != null)
+            {
+                string path = Path.Combine(this.Environment.WebRootPath, "Uploads");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                string fileName = Path.GetFileName(postedFile.FileName);
+                string filePath = Path.Combine(path, fileName);
+                using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                }
+                string csvData = System.IO.File.ReadAllText(filePath);
+                bool firstRow = true;
+                foreach (string row in csvData.Split('\n'))
+                {
+                    if (!string.IsNullOrEmpty(row))
+                    {
+                        if (!string.IsNullOrEmpty(row))
+                        {
+                            if (firstRow)
+                            {
+                                firstRow = false;
+                            }
+                            else
+                            {
+                                int i = 0;
+                                foreach (string cell in row.Split(','))
+                                {
+                                    if (i == 0)
+                                    {
+                                        Club = cell.Trim();
+                                        i++;
+                                    }
+                                    else if (i == 1)
+                                    {
+                                        LName = cell.Trim();
+                                        i++;
+                                    }
+                                    else if (i == 2)
+                                    {
+                                        Name = cell.Trim();
+                                        i++;
+                                    }
+                                    else if (i == 3)
+                                    {
+                                        Position = cell.Trim();
+                                        i++;
+                                    }
+                                    else if (i == 4)
+                                    {
+                                        Salary = Convert.ToDecimal(cell.Trim());
+                                        i++;
+                                    }
+                                    else
+                                    {
+                                        Compensation = Convert.ToDecimal(cell.Trim());
+                                        var newPlayer = new Player
+                                        {
+                                            Club = Club,
+                                            LName = LName,
+                                            Name = Name,
+                                            Position = Position,
+                                            Pay = Salary,
+                                            Compensation = Compensation,
+                                            ID = i++
+                                        };
+                                        Singleton.Instance1.PlayerDList.Push(newPlayer);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return View(Singleton._instance1.PlayerDList);
+            }
+            return View(Singleton._instance1.PlayerDList);
         }
 
         // GET: DoubleController/Details/5
@@ -93,20 +190,20 @@ namespace Lab1_ED1__backup_.Controllers
         // POST: DoubleController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                var DeletePlayer = Singleton.Instance.PlayerDList.Foreach(x => x.ID == id);
-                int pos = Singleton.Instance.PlayerList.IndexOf(DeletePlayer);
-                Singleton.Instance.PlayerList.RemoveAt(pos);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //public ActionResult Delete(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        var DeletePlayer = Singleton.Instance.PlayerDList.Foreach(x => x.ID == id);
+        //        int pos = Singleton.Instance.PlayerList.IndexOf(DeletePlayer);
+        //        Singleton.Instance.PlayerList.RemoveAt(pos);
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         public ActionResult Search()
         {
@@ -214,6 +311,7 @@ namespace Lab1_ED1__backup_.Controllers
                 Singleton.Instance3.PlayerDSearch.Push(p);
             }
         }
+
         public void SearcherC(Player p)
         {
             if (p.Club == SClub)

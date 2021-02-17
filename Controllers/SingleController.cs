@@ -1,13 +1,17 @@
-﻿using Lab1_ED1__backup_.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
+using System.IO;
+using System.Data;
 using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using Lab1_ED1__backup_.Models;
 using Lab1_ED1__backup_.Models.Data;
+
 
 namespace Lab1_ED1__backup_.Controllers
 {
@@ -15,8 +19,102 @@ namespace Lab1_ED1__backup_.Controllers
     {
         public static int i = 0;
         // GET: HomeController1
+        private IHostingEnvironment Environment;
+
+        public SingleController(IHostingEnvironment _environment)
+        {
+            Environment = _environment;
+        }
+
         public ActionResult Index()
         {
+            return View(Singleton._instance.PlayerList);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(IFormFile postedFile)
+        {
+            string Club = "", LName = "", Name = "", Position = "";
+            Decimal Salary = 0, Compensation = 0;
+            if (postedFile != null)
+            {
+                string path = Path.Combine(this.Environment.WebRootPath, "Uploads");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                string fileName = Path.GetFileName(postedFile.FileName);
+                string filePath = Path.Combine(path, fileName);
+                using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                }
+                string csvData = System.IO.File.ReadAllText(filePath);
+                bool firstRow = true;
+                foreach (string row in csvData.Split('\n'))
+                {
+                    if (!string.IsNullOrEmpty(row))
+                    {
+                        if (!string.IsNullOrEmpty(row))
+                        {
+                            if (firstRow)
+                            {
+                                firstRow = false;
+                            }
+                            else
+                            {
+                                int i = 0;
+                                foreach (string cell in row.Split(','))
+                                {
+                                    if (i == 0)
+                                    {
+                                        Club = cell.Trim();
+                                        i++;
+                                    }
+                                    else if (i == 1)
+                                    {
+                                        LName = cell.Trim();
+                                        i++;
+                                    }
+                                    else if (i == 2)
+                                    {
+                                        Name = cell.Trim();
+                                        i++;
+                                    }
+                                    else if (i == 3)
+                                    {
+                                        Position = cell.Trim();
+                                        i++;
+                                    }
+                                    else if (i == 4)
+                                    {
+                                        Salary = Convert.ToDecimal(cell.Trim());
+                                        i++;
+                                    }
+                                    else
+                                    {
+                                        Compensation = Convert.ToDecimal(cell.Trim());
+                                        var newPlayer = new Player
+                                        {
+                                            Club = Club,
+                                            LName = LName,
+                                            Name = Name,
+                                            Position = Position,
+                                            Pay = Salary,
+                                            Compensation = Compensation,
+                                            ID = i++
+                                        };
+                                        Singleton.Instance.PlayerList.Add(newPlayer);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return View(Singleton._instance.PlayerList);
+            }
             return View(Singleton._instance.PlayerList);
         }
 
