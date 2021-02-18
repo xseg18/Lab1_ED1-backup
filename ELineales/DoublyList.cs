@@ -41,17 +41,16 @@ namespace ELineales
 			}
 			return contador;
 		}
-		public bool DeleteAt(int index)
+		public bool Delete(T remove)
 		{
-			if (index == 0)
+			if (remove.Equals(Top.Data))
 			{
 				Top = Top.Next;
 			}
-			int count = 0;
 			NODE temp = Top;
-			while (temp.Next != null && count != index)
+			while (temp.Next != null)
 			{
-				if (count == index - 1)
+				if (temp.Data.Equals(remove))
 				{
 					NODE prev = temp;
 					NODE del = temp.Next;
@@ -155,11 +154,5 @@ namespace ELineales
         {
 			Top = null;
         }
-
-        //public T Find(Predicate<T> action)
-        //{
-
-        //}
-
     }
 }

@@ -271,7 +271,7 @@ namespace Lab1_ED1__backup_.Controllers
         {
             try
             {
-                int pay = Convert.ToInt32(collection["Pay"]);
+                decimal? pay = Convert.ToInt32(collection["Pay"]);
                 if (salario == "menor")
                 {
                     Singleton.Instance2.PlayerSearch = Singleton.Instance.PlayerList.FindAll(x => x.Pay <= pay);

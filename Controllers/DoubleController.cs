@@ -21,6 +21,10 @@ namespace Lab1_ED1__backup_.Controllers
         public static string SLName = "";
         public static decimal? SPay = 0;
         public static string SClub = "";
+        public static int Id = 0;
+        public static Player IDFinder = new Player();
+        public static string PayFinder = "";
+
         // GET: DoubleController
         private IHostingEnvironment Environment;
 
@@ -68,33 +72,33 @@ namespace Lab1_ED1__backup_.Controllers
                             }
                             else
                             {
-                                int i = 0;
+                                int y = 0;
                                 foreach (string cell in row.Split(','))
                                 {
-                                    if (i == 0)
+                                    if (y == 0)
                                     {
                                         Club = cell.Trim();
-                                        i++;
+                                        y++;
                                     }
-                                    else if (i == 1)
+                                    else if (y == 1)
                                     {
                                         LName = cell.Trim();
-                                        i++;
+                                        y++;
                                     }
-                                    else if (i == 2)
+                                    else if (y == 2)
                                     {
                                         Name = cell.Trim();
-                                        i++;
+                                        y++;
                                     }
-                                    else if (i == 3)
+                                    else if (y == 3)
                                     {
                                         Position = cell.Trim();
-                                        i++;
+                                        y++;
                                     }
-                                    else if (i == 4)
+                                    else if (y == 4)
                                     {
                                         Salary = Convert.ToDecimal(cell.Trim());
-                                        i++;
+                                        y++;
                                     }
                                     else
                                     {
@@ -124,7 +128,9 @@ namespace Lab1_ED1__backup_.Controllers
         // GET: DoubleController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Id = id;
+            Singleton.Instance1.PlayerDList.Foreach(SearcherID);
+            return View(IDFinder);
         }
 
         // GET: DoubleController/Create
@@ -163,7 +169,9 @@ namespace Lab1_ED1__backup_.Controllers
         // GET: DoubleController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Id = id;
+            Singleton.Instance1.PlayerDList.Foreach(SearcherID);
+            return View(IDFinder);
         }
 
         // POST: DoubleController/Edit/5
@@ -173,6 +181,11 @@ namespace Lab1_ED1__backup_.Controllers
         {
             try
             {
+                Id = id;
+                Singleton.Instance1.PlayerDList.Foreach(SearcherID);
+                int pos = Singleton.Instance1.PlayerDList.IndexOf(IDFinder);
+                Singleton.Instance1.PlayerDList[pos].Club = collection["Club"];
+                Singleton.Instance1.PlayerDList[pos].Pay = Convert.ToInt32(collection["Pay"]);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -184,26 +197,28 @@ namespace Lab1_ED1__backup_.Controllers
         // GET: DoubleController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Id = id;
+            Singleton.Instance1.PlayerDList.Foreach(SearcherID);
+            return View(IDFinder);
         }
 
         // POST: DoubleController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        var DeletePlayer = Singleton.Instance.PlayerDList.Foreach(x => x.ID == id);
-        //        int pos = Singleton.Instance.PlayerList.IndexOf(DeletePlayer);
-        //        Singleton.Instance.PlayerList.RemoveAt(pos);
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                Id = id;
+                Singleton.Instance1.PlayerDList.Foreach(SearcherID);
+                Singleton.Instance1.PlayerDList.Delete(IDFinder);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
         public ActionResult Search()
         {
@@ -276,12 +291,13 @@ namespace Lab1_ED1__backup_.Controllers
         // POST: DoubleController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SearchP(IFormCollection collection)
+        public ActionResult SearchP(string salario, IFormCollection collection)
         {
             try
             {
                 decimal? pay = Convert.ToDecimal(collection["Pay"]);
                 SPay = pay;
+                PayFinder = salario;
                 if (Singleton.Instance3.PlayerDSearch.Count() > 0)
                 {
                     Singleton.Instance3.PlayerDSearch.Clear();
@@ -306,9 +322,26 @@ namespace Lab1_ED1__backup_.Controllers
 
         public void SearcherP(Player p)
         {
-            if(p.Pay == SPay)
+            if (PayFinder == "igual")
             {
-                Singleton.Instance3.PlayerDSearch.Push(p);
+                if (p.Pay == SPay)
+                {
+                    Singleton.Instance3.PlayerDSearch.Push(p);
+                }
+            }
+            else if(PayFinder == "mayor")
+            {
+                if (p.Pay > SPay)
+                {
+                    Singleton.Instance3.PlayerDSearch.Push(p);
+                }
+            }
+            else
+            {
+                if (p.Pay < SPay)
+                {
+                    Singleton.Instance3.PlayerDSearch.Push(p);
+                }
             }
         }
 
@@ -317,6 +350,14 @@ namespace Lab1_ED1__backup_.Controllers
             if (p.Club == SClub)
             {
                 Singleton.Instance3.PlayerDSearch.Push(p);
+            }
+        }
+
+        public void SearcherID(Player p)
+        {
+            if(p.ID == Id)
+            {
+                IDFinder = p;
             }
         }
     }
