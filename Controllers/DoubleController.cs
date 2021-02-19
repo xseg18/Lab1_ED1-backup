@@ -17,6 +17,8 @@ namespace Lab1_ED1__backup_.Controllers
     public class DoubleController : Controller
     {
         public static int i = 0;
+        public static string log = "";
+        Stopwatch stopWatch = new Stopwatch();
         public static string SName = "";
         public static string SLName = "";
         public static decimal? SPay = 0;
@@ -42,6 +44,8 @@ namespace Lab1_ED1__backup_.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(IFormFile postedFile)
         {
+            stopWatch.Reset();
+            stopWatch.Start();
             string Club = "", LName = "", Name = "", Position = "";
             Decimal Salary = 0, Compensation = 0;
             if (postedFile != null)
@@ -120,16 +124,23 @@ namespace Lab1_ED1__backup_.Controllers
                         }
                     }
                 }
+                stopWatch.Stop();
+                log += "[CSV Upload] - " + Convert.ToString(stopWatch.Elapsed) + '\n';
                 return View(Singleton._instance1.PlayerDList);
             }
+            stopWatch.Stop();
             return View(Singleton._instance1.PlayerDList);
         }
 
         // GET: DoubleController/Details/5
         public ActionResult Details(int id)
         {
+            stopWatch.Reset();
+            stopWatch.Start();
             Id = id;
             Singleton.Instance1.PlayerDList.Foreach(SearcherID);
+            stopWatch.Stop();
+            log += "[Details] - " + Convert.ToString(stopWatch.Elapsed) + '\n';
             return View(IDFinder);
         }
 
@@ -144,6 +155,8 @@ namespace Lab1_ED1__backup_.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
         {
+            stopWatch.Reset();
+            stopWatch.Start();
             try
             {
                 var newPlayer = new Models.Player
@@ -157,11 +170,13 @@ namespace Lab1_ED1__backup_.Controllers
                     ID = i++
                 };
                 Singleton.Instance1.PlayerDList.Push(newPlayer);
+                stopWatch.Stop();
+                log += "[Create] - " + Convert.ToString(stopWatch.Elapsed) + '\n';
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-
+                stopWatch.Stop();
                 return View();
             }
         }
@@ -179,6 +194,8 @@ namespace Lab1_ED1__backup_.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
         {
+            stopWatch.Reset();
+            stopWatch.Start();
             try
             {
                 Id = id;
@@ -186,10 +203,13 @@ namespace Lab1_ED1__backup_.Controllers
                 int pos = Singleton.Instance1.PlayerDList.IndexOf(IDFinder);
                 Singleton.Instance1.PlayerDList[pos].Club = collection["Club"];
                 Singleton.Instance1.PlayerDList[pos].Pay = Convert.ToInt32(collection["Pay"]);
+                stopWatch.Stop();
+                log += "[Edit] - " + Convert.ToString(stopWatch.Elapsed) + '\n';
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
+                stopWatch.Stop();
                 return View();
             }
         }
@@ -207,15 +227,20 @@ namespace Lab1_ED1__backup_.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
         {
+            stopWatch.Reset();
+            stopWatch.Start();
             try
             {
                 Id = id;
                 Singleton.Instance1.PlayerDList.Foreach(SearcherID);
                 Singleton.Instance1.PlayerDList.Delete(IDFinder);
+                stopWatch.Stop();
+                log += "[Delete] - " + Convert.ToString(stopWatch.Elapsed) + '\n';
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
+                stopWatch.Stop();
                 return View();
             }
         }
@@ -235,6 +260,8 @@ namespace Lab1_ED1__backup_.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SearchN(IFormCollection collection)
         {
+            stopWatch.Reset();
+            stopWatch.Start();
             try
             {
                 string name = collection["Name"]; 
@@ -246,11 +273,13 @@ namespace Lab1_ED1__backup_.Controllers
                     Singleton.Instance3.PlayerDSearch.Clear();
                 }
                 Singleton.Instance1.PlayerDList.Foreach(SearcherN);
+                stopWatch.Stop();
+                log += "[Search N] - " + Convert.ToString(stopWatch.Elapsed) + '\n';
                 return RedirectToAction(nameof(Search));
             }
             catch
             {
-
+                stopWatch.Stop();
                 return View();
             }
         }
@@ -265,6 +294,8 @@ namespace Lab1_ED1__backup_.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SearchC(IFormCollection collection)
         {
+            stopWatch.Reset();
+            stopWatch.Start();
             try
             {
                 string club = collection["Club"]; //poner lo de collections
@@ -274,11 +305,13 @@ namespace Lab1_ED1__backup_.Controllers
                     Singleton.Instance3.PlayerDSearch.Clear();
                 }
                 Singleton.Instance1.PlayerDList.Foreach(SearcherC);
+                stopWatch.Stop();
+                log += "[Search C] - " + Convert.ToString(stopWatch.Elapsed) + '\n';
                 return RedirectToAction(nameof(Search));
             }
             catch
             {
-
+                stopWatch.Stop();
                 return View();
             }
         }
@@ -293,6 +326,8 @@ namespace Lab1_ED1__backup_.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SearchP(string salario, IFormCollection collection)
         {
+            stopWatch.Reset();
+            stopWatch.Start();
             try
             {
                 decimal? pay = Convert.ToDecimal(collection["Pay"]);
@@ -303,11 +338,13 @@ namespace Lab1_ED1__backup_.Controllers
                     Singleton.Instance3.PlayerDSearch.Clear();
                 }
                 Singleton.Instance1.PlayerDList.Foreach(SearcherP);
+                stopWatch.Stop();
+                log += "[Search P] - " + Convert.ToString(stopWatch.Elapsed) + '\n';
                 return RedirectToAction(nameof(Search));
             }
             catch
             {
-
+                stopWatch.Stop();
                 return View();
             }
         }
@@ -359,6 +396,14 @@ namespace Lab1_ED1__backup_.Controllers
             {
                 IDFinder = p;
             }
+        }
+
+        public ActionResult Log()
+        {
+            StreamWriter writer = new StreamWriter("Log_File.txt");
+            writer.Write(log);
+            writer.Close();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
