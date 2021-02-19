@@ -45,7 +45,16 @@ namespace ELineales
 		{
 			if (remove.Equals(Top.Data))
 			{
-				Top = Top.Next;
+				if(Top.Next != null)
+                {
+					Top = Top.Next;
+					return true;
+                }
+                else
+                {
+					Top = null;
+					return true;
+				}
 			}
 			NODE temp = Top;
 			while (temp.Next != null)
