@@ -165,8 +165,8 @@ namespace Lab1_ED1__backup_.Controllers
                     LName = collection["LName"],
                     Name = collection["Name"],
                     Position = collection["Position"],
-                    Pay = Convert.ToInt32(collection["Pay"]),
-                    Compensation = Convert.ToInt32(collection["Compensation"]),
+                    Pay = Convert.ToDecimal(collection["Pay"]),
+                    Compensation = Convert.ToDecimal(collection["Compensation"]),
                     ID = i++
                 };
                 Singleton.Instance1.PlayerDList.Push(newPlayer);

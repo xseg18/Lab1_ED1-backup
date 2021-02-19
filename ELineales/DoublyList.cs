@@ -41,38 +41,32 @@ namespace ELineales
 			}
 			return contador;
 		}
-		public bool Delete(T remove)
+		public void Delete(T remove)
 		{
 			if (remove.Equals(Top.Data))
 			{
-				if(Top.Next != null)
-                {
-					Top = Top.Next;
-					return true;
-                }
-                else
-                {
-					Top = null;
-					return true;
-				}
+				Top = Top.Next;
+				return;
 			}
 			NODE temp = Top;
-			while (temp.Next != null)
+			while (temp != null)
 			{
-				if (temp.Data.Equals(remove))
+				if (temp.Next.Data.Equals(remove))
 				{
 					NODE prev = temp;
-					NODE del = temp.Next;
+					NODE del = temp.Next.Next;
 					prev.Next = del;
-					del.Prev = prev;
-					return true;
+					if(del != null)
+                    {
+						del.Prev = prev;
+                    }
+					return;
 				}
 				else
 				{
 					temp = temp.Next;
 				}
 			}
-			return false;
 		}
 		private IEnumerable<T> Events()
 		{
